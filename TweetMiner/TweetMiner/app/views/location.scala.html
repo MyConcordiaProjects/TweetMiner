@@ -1,0 +1,12 @@
+@(tweets: List[String])
+<html>
+    <head>
+        <title>Tweets by location</title>
+    </head>
+    <body>
+    <h1>Tweets By Location</h1>
+    @for(tweet <- tweets) {
+        <p>@tweet</p>
+    }
+    </body>
+</html>

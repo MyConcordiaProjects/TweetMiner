@@ -1,0 +1,23 @@
+@import models.userProfile
+@(userInfo: userProfile)
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <title>User Profile</title>
+               <script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.min.js")"></script>   
+    </head>
+    <body>
+        <div >
+            <p >User Profile</p>    
+            <p >Name - @userInfo.getName()</p>           
+            <p>Profile - <a target="_blank" href="https://twitter.com/@userInfo.getUserProfileName()">@userInfo.getUserProfileName()</a></p>
+            <p >Url - <a target="_blank" href="@userInfo.getUrl()">@userInfo.getUrl()</a></p>
+            <p>Description - @userInfo.getDescription()</p>
+            <p>Location - @userInfo.getLocation()</p>         
+            <p >Tweets</p>
+            @for(tweet <- userInfo.getTimeline()) {
+                <p>>>>>>@tweet</p>
+            }
+        </div>
+    </body>
+</html>

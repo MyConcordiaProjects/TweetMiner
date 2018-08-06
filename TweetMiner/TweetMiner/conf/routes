@@ -1,0 +1,27 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.HomeController.index
+
+#Search result page
+GET     /tweetminer/:keyword                   controllers.TweetController.getTweets(keyword: String)
+
+#Word statistics page
+GET		/wordstatistics/:keyword				controllers.WordStatisticsController.wordcount(keyword: String)
+
+#Tweet emotion display
+GET     /emotion/:keyword                   controllers.SentimentController.getSentiment(keyword: String)
+
+# UserProfile controller to show user profile(details and timeline) for specific username
+GET     /userProfile/:username          controllers.UserProfileController.userProfile(username: String)
+
+#To get the tweets by location
+GET    /location/:latitude/:longitude     controllers.LocationController.getTweetsByLocation(latitude: String, longitude: String)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+#Search result page
+GET     /hashtag/:keyword                   controllers.HashtagController.getHashtags(keyword: String)

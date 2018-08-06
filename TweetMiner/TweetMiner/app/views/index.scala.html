@@ -1,0 +1,40 @@
+@(message: String)
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<title >@message</title>
+<script src="@routes.Assets.versioned("javascripts/jquery-3.3.1.min.js")"></script>
+
+Welcome to Tweet Miner.
+</head>
+<body>
+	<div align="center" id="main-body">
+	<form class="searchform" id="search-form">
+		<input id="searchkeyword" class="search-keyword" name="keyword"
+			type="search" />
+		<button class="search-btn" type="submit" id="search-button">search</button>
+	</form>
+	<br>
+	<form class="wordcountform" id="wordcount-form">
+	<div class="wordstats" id="word-stats">
+	<button class="wordcount-btn" type="submit" id="wordcount-button">Word statistics</button>
+		<!-- a target="wordcount.scala.html" href="http://localhost:9000/wordstatistics/"><h3>Word statistics</h3></a> -->
+	</div>
+	</form>
+	<br>
+	<div id="hashtaglinks" class="hash-links">
+        </div>
+	<form class="emotionform" id="emotion-form">
+            <button class="emotion-btn" type="submit" id="emotion-button">Tweet sentiment</button>
+    </form>
+    <br>
+    <div class="display-sentiment" id="display_sentiment" align="center">
+    </div>
+	<div class="display-tweets" align="justify">
+	</div>
+	<div class="display-words" align="left">
+	</div>
+	</div>
+	<script src="@routes.Assets.versioned("javascripts/hello.js")"></script>
+</body>
+</html>
