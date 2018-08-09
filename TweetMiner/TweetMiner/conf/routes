@@ -25,3 +25,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 #Search result page
 GET     /hashtag/:keyword                   controllers.HashtagController.getHashtags(keyword: String)
+
+#
+GET     /reactivePage                    controllers.MainController.socket()
