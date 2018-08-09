@@ -116,46 +116,35 @@
 					jQuery.get(
 							"http://localhost:9000/wordstatistics/"
 									+ searchKeyword.value).done(
-							function(wordDisplay) {
-								wordList.concat(wordDisplay);
+							function(words) {
+								//window.alert(words);
 								word += "<h2>Here's the Word Statistics:</h2>";
-								wordDisplay.forEach(function(eachWord) {
-									word += "<p> * ";
-									word += eachWord.word + " "
-											+ eachWord.count + "<br></p>";
-								});
+								word += "<p> ";
+								word += words + "<br></p>";
 								jQuery(".display-words").append(word);
-							});
-				}
+								});
+								
+							}
+				
 			});
 
-	var emojiList = [];
-	// tweet sentiment function
 	jQuery('#emotion-form')
-			.submit(
-					function(emojifunc) {
-						emojifunc.preventDefault();
-						var emoji = "";
-						if (searchKeyword.value != '') {
-							jQuery
-									.get(
-											"http://localhost:9000/emotion/"
-													+ searchKeyword.value)
-									.done(
-											function(displayEmotion) {
-												emojiList
-														.concat(displayEmotion);
-												displayEmotion
-														.forEach(function(
-																eachEmoji) {
-															emoji += "<h3> Average tweet emotion is ";
-															emoji += eachEmoji.emoji;
-															emoji += "</h3>";
-														});
-												document
-														.getElementById("display_sentiment").innerHTML = emoji;
-											});
+    .submit(
+            function(emojifunc) {
+                emojifunc.preventDefault();
+                var emoji = "";
+                if (searchKeyword.value != '') {
+                    jQuery.get("http://localhost:9000/emotion/" + searchKeyword.value)
+                            .done(
+                                    function(displayEmotion) {
+                                        //window.alert(displayEmotion)
+                                        emoji += "<h3> Average tweet emotion is ";
+                                        emoji += displayEmotion;
+                                        emoji += "</h3>";
+                                        document.getElementById("display_sentiment").innerHTML = emoji;
+                                    });
+                    
+                }
 
-						}
-					});
+            });
 })(window);

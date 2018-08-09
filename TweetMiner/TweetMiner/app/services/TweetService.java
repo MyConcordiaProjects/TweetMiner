@@ -96,8 +96,8 @@ public class TweetService {
 	 * @return future containing distinct word count in descending order
 	 * @throws TwitterException
 	 */
-	public static CompletionStage<ArrayNode> getWordCount(String keyword) throws TwitterException {
-		CompletableFuture<ArrayNode> tweetFuture = new CompletableFuture<>();
+	public static String getWordCount(String keyword) throws TwitterException {
+		//CompletableFuture<ArrayNode> tweetFuture = new CompletableFuture<>();
 		Twitter twitterfactory = getAuthorization();
 		Query query = new Query(keyword);
 		// Limiting the tweets to 100
@@ -112,17 +112,20 @@ public class TweetService {
 		Map<String, Long> uniqueWords = unsortMap.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).collect(Collectors.toMap(
 						Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+		StringBuilder wordString = new StringBuilder();
 
-		ArrayNode JSONWords = Json.newArray();
+		/*ArrayNode JSONWords = Json.newArray();*/
 		uniqueWords.forEach((word, count) -> {
-			ObjectNode JSONNode = Json.newObject();
+			wordString.append("* " + word + ": " + count + "<br>");
+			/*ObjectNode JSONNode = Json.newObject();
 			JSONNode.put("word", word);
 			JSONNode.put("count", count);
-			JSONWords.add(JSONNode);
+			JSONWords.add(JSONNode);*/
+			
 		});
-
-		tweetFuture.complete(JSONWords);
-		return tweetFuture;
+		//wordString.toString();
+		//tweetFuture.complete(JSONWords);
+		return wordString.toString();
 
 	}
 
@@ -132,7 +135,7 @@ public class TweetService {
 	 * @return future containing the emoticon
 	 * @throws TwitterException
 	 */
-	public static CompletableFuture<ArrayNode> getSentiment(String keyword) throws TwitterException {
+	public static String getSentiment(String keyword) throws TwitterException {
 		CompletableFuture<ArrayNode> tweetEmojiFuture = new CompletableFuture<>();
 		Twitter twitterfactory = getAuthorization();
 		Query query = new Query(keyword);
@@ -150,12 +153,12 @@ public class TweetService {
 		long neutralCount = tweetStringList.stream().filter(a -> a.contains(neutralEmoticon)).count();
 		String emotion = happyCount > sadCount ? ((happyCount > neutralCount || happyCount > 70) ? ":-)" : ":-|")
 				: (sadCount > neutralCount || sadCount > 70) ? ":-(" : ":-|";
-		ArrayNode JSONEmotion = Json.newArray();
+		/*ArrayNode JSONEmotion = Json.newArray();
 		ObjectNode JSONNode = Json.newObject();
 		JSONNode.put("emoji", emotion);
 		JSONEmotion.add(JSONNode);
-		tweetEmojiFuture.complete(JSONEmotion);
-		return tweetEmojiFuture;
+		tweetEmojiFuture.complete(JSONEmotion);*/
+		return emotion;
 	}
 	
 	/**
