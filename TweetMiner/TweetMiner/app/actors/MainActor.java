@@ -31,31 +31,42 @@ public class MainActor extends AbstractActor {
 
 	@Override
 	public Receive createReceive() {
-		return receiveBuilder().match(String.class, message -> {
-			Runnable task = new Runnable() {
-				@Override
-				public void run() {
-					Query query = new Query(message);
-					query.setCount(10);
-					QueryResult tweetSet = null;
-					try {
-						tweetSet = twitter.search(query);
-					} catch (TwitterException twitterException) {
-						twitterException.printStackTrace();
-					}
-					List<Status> tweets = tweetSet.getTweets();
-					ArrayNode tweetJSON = Json.newArray();
+        return receiveBuilder()
+                .match(String.class, message -> {
+                    Runnable task = new Runnable() {
+                            @Override
+                            public void run() {
+                                Query query = new Query(message);
+                                query.setCount(10);
+                                QueryResult result = null;
+                                try {
+                                    result = twitter.search(query);
+                                } catch (TwitterException e) {
+                                    e.printStackTrace();
+                                }
+                                List<Status> tweets = result.getTweets();
+                                ArrayNode tweetJSON = Json.newArray();
+                                tweets.forEach((tweet) -> {
+                                    ObjectNode node = Json.newObject();
+                                    node.put("tweet", tweet.getText());
+                                    node.put("userName", tweet.getUser().getName());
+                                    node.put("displayName", tweet.getUser().getScreenName());
+                                    node.put("message", message);
+                                    tweetJSON.add(node);
+                                });
+                                actorRef.tell(tweetJSON.toString(), self()) ;
+                            }
+                        };
+                        ScheduledExecutorService service = Executors
+                            .newSingleThreadScheduledExecutor();
+                        service.scheduleAtFixedRate(task, 0, 10, TimeUnit.SECONDS);
+                    }
+                )
+                .build();
+    }
+}
 
-					tweetJSON = setTweetJSON(tweets, message);
-					actorRef.tell(tweetJSON.toString(), self());
-				}
-			};
-			ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-			executor.scheduleAtFixedRate(task, 0, 10, TimeUnit.SECONDS);
-		}).build();
-	}
-
-	public static ArrayNode setTweetJSON(List<Status> tweets, String message) {
+	/*public static ArrayNode setTweetJSON(List<Status> tweets, String message) {
 		ArrayNode tweetJSON = Json.newArray();
 		ObjectNode JSONNode = Json.newObject();
 		tweets.forEach((tweet) -> {
@@ -75,5 +86,5 @@ public class MainActor extends AbstractActor {
 		});
 		return tweetJSON;
 
-	}
-}
+	}*/
+
