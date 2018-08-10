@@ -85,10 +85,11 @@
 														+ "'>#"
 														+ eachTweet.hashTag
 														+ "</a>";
+														//+ eachTweet.id;
 											}
 											tweets += "</p>";
 										});
-								tweets += "<hr>";
+								//tweets += "<hr>";
 								jQuery(".display-tweets").append(tweets);
 							};
 
@@ -118,7 +119,7 @@
 									+ searchKeyword.value).done(
 							function(words) {
 								//window.alert(words);
-								word += "<h2>Here's the Word Statistics:</h2>";
+								word += "<h2><hr>Here's the Word Statistics:</h2>";
 								word += "<p> ";
 								word += words + "<br></p>";
 								jQuery(".display-words").append(word);

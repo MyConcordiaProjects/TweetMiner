@@ -17,6 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MainActor extends AbstractActor {
+	
+	Set<Long> tweetIDSet = new HashSet();
 
 	private final ActorRef actorRef;
 	private final Twitter twitter = TweetService.getAuthorization();
@@ -46,20 +48,28 @@ public class MainActor extends AbstractActor {
                                 }
                                 List<Status> tweets = result.getTweets();
                                 ArrayNode tweetJSON = Json.newArray();
+                                //Set<Long> tweetIDSet = new HashSet();
                                 tweets.forEach((tweet) -> {
-                                    ObjectNode node = Json.newObject();
-                                    node.put("tweet", tweet.getText());
-                                    node.put("userName", tweet.getUser().getName());
-                                    node.put("displayName", tweet.getUser().getScreenName());
-                                    node.put("message", message);
-                                    tweetJSON.add(node);
+                                	if(!tweetIDSet.contains(tweet.getId())) {
+                                		ObjectNode node = Json.newObject();
+                                		//node.put("id",tweet.getId());
+                                        node.put("tweet", tweet.getText());
+                                        node.put("userName", tweet.getUser().getName());
+                                        node.put("displayName", tweet.getUser().getScreenName());
+                                        node.put("message", message);
+                                        tweetIDSet.add(tweet.getId());
+                                        tweetJSON.add(node);
+                                	}
+                                	else {
+                                		return;
+                                	}
                                 });
                                 actorRef.tell(tweetJSON.toString(), self()) ;
                             }
                         };
                         ScheduledExecutorService service = Executors
                             .newSingleThreadScheduledExecutor();
-                        service.scheduleAtFixedRate(task, 0, 10, TimeUnit.SECONDS);
+                        service.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
                     }
                 )
                 .build();

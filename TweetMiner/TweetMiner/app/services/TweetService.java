@@ -34,10 +34,10 @@ public class TweetService {
 	 */
 	public static Twitter getAuthorization() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("iuh1dBIa8bXvOjBSRLpIF7e40")
-				.setOAuthConsumerSecret("GAupJH5iFkWycp9r72dN44Tvd0pO14Tkoi4WSsoMt8dSN4GB3E")
-				.setOAuthAccessToken("972273228046569473-4GTgsikGCKHXse3RxzTwqSUk23cEhe8")
-				.setOAuthAccessTokenSecret("xctHGp1WG295EARuD7uWKuWJuAI9hgPxmDI0IxmK0ZtAI");
+		cb.setDebugEnabled(true).setOAuthConsumerKey("qZoewFHdsGt0f7XaZnZJWw7kz")
+				.setOAuthConsumerSecret("IxqCsgKTzAbp4cHQBFNd3OA9J3rzUdJZvVCtm7qrb1X9alhJx2")
+				.setOAuthAccessToken("769824401474719744-u3LSsy5BqmbvUx097vm08FPMbcvFFOy")
+				.setOAuthAccessTokenSecret("qqrzt2Yv4bh0xYlkwCCMYXEEYXmjY7RttEoMSbeQLkgFG");
 
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
